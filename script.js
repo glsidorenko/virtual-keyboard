@@ -82,15 +82,12 @@ const rus = Array.from(document.querySelectorAll('.rus')),
       caseUpRu = document.querySelectorAll('.rus span.caseUp'),
       caseDownRu = document.querySelectorAll('.rus span.caseDown'),
       capsRu = document.querySelectorAll('.rus span.caps'),
-      shiftCapsRu = document.querySelectorAll('.rus span.shiftCaps'),
 
       caseUpEn = document.querySelectorAll('eng span.caseUp'),
       caseDownEn = document.querySelectorAll('.eng span.caseDown'),
       capsEn = document.querySelectorAll('.eng span.caps'),
-      shiftCapsEn = document.querySelectorAll('.eng span.shiftCaps'),
 
-      textarea = document.querySelector('.textarea'),
-      keyboard = document.querySelector('.keyboard');
+      textarea = document.querySelector('.textarea');
 
       let capsOn = false;
       
@@ -140,7 +137,7 @@ document.addEventListener('keydown', (event) => {
       changeTextArea(keyName);
     }
 
-    //Change keyboard language
+    // Change keyboard language
     if (event.ctrlKey && event.altKey) {
       if (!eng.some(elem => elem.classList.contains('hidden'))) {
         // console.log('смена языка');
@@ -312,15 +309,15 @@ document.addEventListener('mousedown', (event) => {
           changeTextArea(parent, parent.querySelector('span:not(.hidden) > span:not(.hidden'));
         } 
 
-    if (parentClass == 'Tab') {
+    if (parentClass === 'Tab') {
       changeTextArea(parentClass);
     }
   
-    if (parentClass == 'Backspace') {
+    if (parentClass === 'Backspace') {
       changeTextArea(parentClass);
     }
   
-    if (parentClass == 'Enter') {
+    if (parentClass === 'Enter') {
       changeTextArea(parentClass);
     }
   
@@ -341,11 +338,9 @@ document.addEventListener('mousedown', (event) => {
             key.classList.remove('hidden');
           });
     
-          // console.log('eng');
         } 
     
         if (!rus.some(elem => elem.classList.contains('hidden'))) {
-          // console.log('rus');
           
           caseDownRu.forEach(key => {
             key.classList.add('hidden');
@@ -385,22 +380,22 @@ document.addEventListener('mousedown', (event) => {
 
       if (!eng.some(elem => elem.classList.contains('hidden'))) {
         caseDownEn.forEach(key => {
-          key.classList.remove('hidden');
+          key.classList.add('hidden');
         });
   
         capsEn.forEach(key => {
-          key.classList.add('hidden');
+          key.classList.remove('hidden');
         });
       } 
       if (!rus.some(elem => elem.classList.contains('hidden'))) {
         console.log('rus');
         
         caseDownRu.forEach(key => {
-          key.classList.remove('hidden');
+          key.classList.add('hidden');
         });
   
         capsRu.forEach(key => {
-          key.classList.add('hidden');
+          key.classList.remove('hidden');
         });
       }
     }
@@ -418,29 +413,29 @@ document.addEventListener('mouseup', (event) => {
     keyName.classList.remove('active');
   }
 
-  // if (keyName.classList[1] === 'ShiftLeft' || keyName.classList[1] === 'ShiftRight') {
+  if (keyName.classList[1] === 'ShiftLeft' || keyName.classList[1] === 'ShiftRight') {
     
-  //   if (!eng.some(elem => elem.classList.contains('hidden'))) {
-  //     caseDownEn.forEach(key => {
-  //       key.classList.remove('hidden');
-  //     });
+    if (!eng.some(elem => elem.classList.contains('hidden'))) {
+      caseDownEn.forEach(key => {
+        key.classList.remove('hidden');
+      });
 
-  //     capsEn.forEach(key => {
-  //       key.classList.add('hidden');
-  //     });
-  //   } 
-  //   if (!rus.some(elem => elem.classList.contains('hidden'))) {
-  //     console.log('rus');
+      capsEn.forEach(key => {
+        key.classList.add('hidden');
+      });
+    } 
+    if (!rus.some(elem => elem.classList.contains('hidden'))) {
+      console.log('rus');
       
-  //     caseDownRu.forEach(key => {
-  //       key.classList.remove('hidden');
-  //     });
+      caseDownRu.forEach(key => {
+        key.classList.remove('hidden');
+      });
 
-  //     capsRu.forEach(key => {
-  //       key.classList.add('hidden');
-  //     });
-  //   }
-  // }
+      capsRu.forEach(key => {
+        key.classList.add('hidden');
+      });
+    }
+  }
 
 });
 
