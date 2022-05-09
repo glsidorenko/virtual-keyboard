@@ -1,4 +1,4 @@
-
+let lang = localStorage.getItem('lang') || 'eng';
 
 function createKeyboard() {
   const keys = {
@@ -947,6 +947,9 @@ function createKeyboard() {
   
     const wrapperEn = document.createElement('span');
     wrapperEn.classList.add('eng');
+
+    lang === 'eng' ? wrapperRu.classList.add('hidden')
+    : wrapperEn.classList.add('hidden');
     
     createLanguageTemplate(wrapperRu, 'ru', value);
     createLanguageTemplate(wrapperEn, 'en', value);
