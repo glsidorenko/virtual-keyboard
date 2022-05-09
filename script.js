@@ -1174,6 +1174,171 @@ document.addEventListener('keyup', (event) => {
   // console.log(button);
 });
 
+document.addEventListener('mousedown', (event) => {
+  let keyName = event.target;
+
+  if (keyName.tagName !== 'TEXTAREA') {
+    event.preventDefault();
+  }
+
+  if (keyName.tagName === 'SPAN') {
+    console.log(keyName);
+
+    keyName.classList.add('active');
+
+    let parent = keyName.closest('div');
+
+    let parentClass = parent.classList[1]
+    console.log(parent);
+    console.log(parentClass);
+
+    if (parentClass !== 'AltLeft' && 
+        parentClass !== 'AltRight' && 
+        parentClass !== 'ControlLeft' && 
+        parentClass !== 'ControlRight' &&
+        parentClass !== 'ShiftLeft' &&
+        parentClass !== 'ShiftRight' && 
+        parentClass !== 'Enter' &&
+        parentClass !== 'MetaLeft' &&
+        parentClass !== 'CapsLock' &&
+        parentClass !== 'Tab' &&
+        parentClass !== 'Backspace' && 
+        parentClass !== 'Delete') {
+          changeTextArea(parent, parent.querySelector('span:not(.hidden) > span:not(.hidden'));
+        } 
+
+    if (parentClass == 'Tab') {
+      changeTextArea(parentClass);
+    }
+  
+    if (parentClass == 'Backspace') {
+      changeTextArea(parentClass);
+    }
+  
+    if (parentClass == 'Enter') {
+      changeTextArea(parentClass);
+    }
+  
+    if (parentClass === 'Delete') {
+      changeTextArea(parentClass);
+    }
+
+    if (parentClass === 'CapsLock') {
+      capsOn = !capsOn;
+      if (capsOn) {
+        if (!eng.some(elem => elem.classList.contains('hidden'))) {
+  
+          caseDownEn.forEach(key => {
+            key.classList.add('hidden');
+          });
+    
+          capsEn.forEach(key => {
+            key.classList.remove('hidden');
+          });
+    
+          // console.log('eng');
+        } 
+    
+        if (!rus.some(elem => elem.classList.contains('hidden'))) {
+          // console.log('rus');
+          
+          caseDownRu.forEach(key => {
+            key.classList.add('hidden');
+          });
+    
+          capsRu.forEach(key => {
+            key.classList.remove('hidden');
+          });
+        }
+      } else {
+        parent.classList.remove('active');
+  
+        if (!eng.some(elem => elem.classList.contains('hidden'))) {
+          caseDownEn.forEach(key => {
+            key.classList.remove('hidden');
+          });
+    
+          capsEn.forEach(key => {
+            key.classList.add('hidden');
+          });
+        } 
+        if (!rus.some(elem => elem.classList.contains('hidden'))) {
+          console.log('rus');
+          
+          caseDownRu.forEach(key => {
+            key.classList.remove('hidden');
+          });
+    
+          capsRu.forEach(key => {
+            key.classList.add('hidden');
+          });
+        }
+      }
+    }
+
+    if (parentClass === 'ShiftLeft' || parentClass === 'ShiftRight') {
+
+      if (!eng.some(elem => elem.classList.contains('hidden'))) {
+        caseDownEn.forEach(key => {
+          key.classList.remove('hidden');
+        });
+  
+        capsEn.forEach(key => {
+          key.classList.add('hidden');
+        });
+      } 
+      if (!rus.some(elem => elem.classList.contains('hidden'))) {
+        console.log('rus');
+        
+        caseDownRu.forEach(key => {
+          key.classList.remove('hidden');
+        });
+  
+        capsRu.forEach(key => {
+          key.classList.add('hidden');
+        });
+      }
+    }
+  } 
+
+});
+
+document.addEventListener('mouseup', (event) => {
+  event.preventDefault();
+
+  let keyName = event.target;
+
+  if (keyName.tagName === 'SPAN' || keyName.classList.contains('key')) {
+    // console.log(keyName);
+    keyName.classList.remove('active');
+  }
+
+  // if (keyName.classList[1] === 'ShiftLeft' || keyName.classList[1] === 'ShiftRight') {
+    
+  //   if (!eng.some(elem => elem.classList.contains('hidden'))) {
+  //     caseDownEn.forEach(key => {
+  //       key.classList.remove('hidden');
+  //     });
+
+  //     capsEn.forEach(key => {
+  //       key.classList.add('hidden');
+  //     });
+  //   } 
+  //   if (!rus.some(elem => elem.classList.contains('hidden'))) {
+  //     console.log('rus');
+      
+  //     caseDownRu.forEach(key => {
+  //       key.classList.remove('hidden');
+  //     });
+
+  //     capsRu.forEach(key => {
+  //       key.classList.add('hidden');
+  //     });
+  //   }
+  // }
+
+});
+
 function changeTextArea(btn, btnText) {
   textarea.focus();
 
