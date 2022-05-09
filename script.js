@@ -103,12 +103,9 @@ document.addEventListener('keydown', (event) => {
 
     button.classList.add('active');
 
-    // console.log(button);
-
     let textButton = button.querySelector(`.${keyName} > span:not(.hidden) > span:not(.hidden)`);
       
     console.log(`Button pressed: ${textButton.textContent}`);
-    // console.log(textButton);
 
     if (keyName !== 'AltLeft' && keyName !== 'AltRight' && 
     keyName !== 'ControlLeft' && keyName !== 'ControlRight' &&
@@ -140,7 +137,6 @@ document.addEventListener('keydown', (event) => {
     // Change keyboard language
     if (event.ctrlKey && event.altKey) {
       if (!eng.some(elem => elem.classList.contains('hidden'))) {
-        // console.log('смена языка');
         localStorage.setItem('lang', 'rus');
       } else {
         localStorage.setItem('lang', 'eng');
@@ -167,13 +163,9 @@ document.addEventListener('keydown', (event) => {
           capsEn.forEach(key => {
             key.classList.remove('hidden');
           });
-    
-          // console.log('eng');
         } 
     
         if (!rus.some(elem => elem.classList.contains('hidden'))) {
-          // console.log('rus');
-          
           caseDownRu.forEach(key => {
             key.classList.add('hidden');
           });
@@ -219,13 +211,9 @@ document.addEventListener('keydown', (event) => {
         capsEn.forEach(key => {
           key.classList.remove('hidden');
         });
-
-        // console.log('eng');
       } 
 
       if (!rus.some(elem => elem.classList.contains('hidden'))) {
-        // console.log('rus');
-        
         caseDownRu.forEach(key => {
           key.classList.add('hidden');
         });
@@ -273,7 +261,6 @@ document.addEventListener('keyup', (event) => {
       }
     }
   }  
-  // console.log(button);
 });
 
 document.addEventListener('mousedown', (event) => {
@@ -290,7 +277,7 @@ document.addEventListener('mousedown', (event) => {
 
     let parent = keyName.closest('div');
 
-    let parentClass = parent.classList[1]
+    let parentClass = parent.classList[1];
     console.log(parent);
     console.log(parentClass);
 
@@ -337,7 +324,6 @@ document.addEventListener('mousedown', (event) => {
           capsEn.forEach(key => {
             key.classList.remove('hidden');
           });
-    
         } 
     
         if (!rus.some(elem => elem.classList.contains('hidden'))) {
@@ -400,7 +386,6 @@ document.addEventListener('mousedown', (event) => {
       }
     }
   } 
-
 });
 
 document.addEventListener('mouseup', (event) => {
@@ -409,34 +394,45 @@ document.addEventListener('mouseup', (event) => {
   let keyName = event.target;
 
   if (keyName.tagName === 'SPAN' || keyName.classList.contains('key')) {
-    // console.log(keyName);
-    keyName.classList.remove('active');
-  }
+    console.log(keyName);
 
-  if (keyName.classList[1] === 'ShiftLeft' || keyName.classList[1] === 'ShiftRight') {
-    
-    if (!eng.some(elem => elem.classList.contains('hidden'))) {
-      caseDownEn.forEach(key => {
-        key.classList.remove('hidden');
-      });
+    let parent = keyName.closest('div');
 
-      capsEn.forEach(key => {
-        key.classList.add('hidden');
-      });
-    } 
-    if (!rus.some(elem => elem.classList.contains('hidden'))) {
-      console.log('rus');
+    let parentClass = parent.classList[1];
+
+    console.log(parent);
+    console.log(parentClass);
+
+    if(parentClass !== 'CapsLock') {
+      keyName.classList.remove('active');
+    }
+
+    if (parentClass === 'ShiftLeft' || parentClass === 'ShiftRight') {
+
+      console.log('отжал');
       
-      caseDownRu.forEach(key => {
-        key.classList.remove('hidden');
-      });
-
-      capsRu.forEach(key => {
-        key.classList.add('hidden');
-      });
+      if (!eng.some(elem => elem.classList.contains('hidden'))) {
+        caseDownEn.forEach(key => {
+          key.classList.remove('hidden');
+        });
+  
+        capsEn.forEach(key => {
+          key.classList.add('hidden');
+        });
+      } 
+      if (!rus.some(elem => elem.classList.contains('hidden'))) {
+        console.log('rus');
+        
+        caseDownRu.forEach(key => {
+          key.classList.remove('hidden');
+        });
+  
+        capsRu.forEach(key => {
+          key.classList.add('hidden');
+        });
+      }
     }
   }
-
 });
 
 function changeTextArea(btn, btnText) {
@@ -476,7 +472,6 @@ function changeTextArea(btn, btnText) {
     startPos++;
   }
 
-  // console.log(`Input changed: ${textarea.value}`);
   textarea.selectionStart = startPos;
   textarea.selectionEnd = startPos;
 }
