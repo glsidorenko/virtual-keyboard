@@ -1,3 +1,5 @@
+
+
 function createKeyboard() {
   const keys = {
     Backquote: {
@@ -936,7 +938,7 @@ function createKeyboard() {
     keyboardDiv.append(line);
   });
 
-  Object.entries(keys).forEach(([key, ...x], i) => {
+  Object.entries(keys).forEach(([key, value], i) => {
     const keyContainer = document.createElement('div');
     keyContainer.classList.add('key', `${key}`);
   
@@ -945,12 +947,9 @@ function createKeyboard() {
   
     const wrapperEn = document.createElement('span');
     wrapperEn.classList.add('eng');
-
-    // lang === 'eng' ? wrapperRu.classList.add('hidden')
-    // : wrapperEn.classList.add('hidden');
     
-    // createLanguageTemplate(wrapperRu, 'ru', value);
-    // createLanguageTemplate(wrapperEn, 'en', value);
+    createLanguageTemplate(wrapperRu, 'ru', value);
+    createLanguageTemplate(wrapperEn, 'en', value);
 
     if (i < 14) {
       line1.append(keyContainer);
@@ -969,3 +968,23 @@ function createKeyboard() {
 }
 
 createKeyboard();
+
+function createLanguageTemplate(wrapper, language, keyObject) {
+  const caseDown = document.createElement('span');
+  caseDown.classList.add('caseDown');
+  caseDown.textContent = keyObject[language]['caseDown'];
+
+  const caseUp = document.createElement('span');
+  caseUp.classList.add('caseUp', 'hidden');
+  caseUp.textContent = keyObject[language]['caseUp'];
+
+  const caps = document.createElement('span');
+  caps.classList.add('caps', 'hidden');
+  caps.textContent = keyObject[language]['caps'];
+
+  const shiftCaps = document.createElement('span');
+  shiftCaps.classList.add('shiftCaps', 'hidden');
+  shiftCaps.textContent = keyObject[language]['shiftCaps'];
+
+  wrapper.append(caseDown, caseUp, caps, shiftCaps);
+}
