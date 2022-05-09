@@ -972,6 +972,250 @@ function createKeyboard() {
 
 createKeyboard();
 
+const rus = Array.from(document.querySelectorAll('.rus')),
+      eng = Array.from(document.querySelectorAll('.eng')),
+      caseUpRu = document.querySelectorAll('.rus span.caseUp'),
+      caseDownRu = document.querySelectorAll('.rus span.caseDown'),
+      capsRu = document.querySelectorAll('.rus span.caps'),
+      shiftCapsRu = document.querySelectorAll('.rus span.shiftCaps'),
+
+      caseUpEn = document.querySelectorAll('eng span.caseUp'),
+      caseDownEn = document.querySelectorAll('.eng span.caseDown'),
+      capsEn = document.querySelectorAll('.eng span.caps'),
+      shiftCapsEn = document.querySelectorAll('.eng span.shiftCaps'),
+
+      textarea = document.querySelector('.textarea'),
+      keyboard = document.querySelector('.keyboard');
+
+      let capsOn = false;
+      
+document.addEventListener('keydown', (event) => {
+  event.preventDefault();
+  let keyName = event.code;
+
+  console.log(keyName);
+
+  let button = document.querySelector(`.${keyName}`);
+
+  if (button) {
+
+  button.classList.add('active');
+
+  // console.log(button);
+
+  let textButton = button.querySelector(`.${keyName} > span:not(.hidden) > span:not(.hidden)`);
+    
+  console.log(`Button pressed: ${textButton.textContent}`);
+  // console.log(textButton);
+
+  if (keyName !== 'AltLeft' && keyName !== 'AltRight' && 
+  keyName !== 'ControlLeft' && keyName !== 'ControlRight' &&
+  keyName !== 'ShiftLeft' && keyName !== 'ShiftRight' &&
+  keyName !== 'Enter' && keyName !== 'MetaLeft' && 
+  keyName !== 'CapsLock' && keyName !== 'Tab' && 
+  keyName !== 'Backspace' && keyName !== 'Delete') {
+    changeTextArea(keyName, textButton);
+  }
+
+  console.log(`Input changed: ${textarea.value}`);
+
+  if (keyName === 'Tab') {
+    changeTextArea(keyName);
+  }
+
+  if (keyName === 'Backspace') {
+    changeTextArea(keyName);
+  }
+
+  if (keyName === 'Enter') {
+    changeTextArea(keyName);
+  }
+
+  if (keyName === 'Delete') {
+    changeTextArea(keyName);
+  }
+
+  //Change keyboard language
+  if (event.ctrlKey && event.altKey) {
+    if (!eng.some(elem => elem.classList.contains('hidden'))) {
+      // console.log('смена языка');
+      localStorage.setItem('lang', 'rus');
+    } else {
+      localStorage.setItem('lang', 'eng');
+    }
+
+    rus.forEach(elem => {
+      elem.classList.toggle('hidden');
+    });
+
+    eng.forEach(elem => {
+      elem.classList.toggle('hidden');
+    });
+  }
+
+  if (keyName === 'CapsLock') {
+    capsOn = !capsOn;
+    if (capsOn) {
+      if (!eng.some(elem => elem.classList.contains('hidden'))) {
+
+        caseDownEn.forEach(key => {
+          key.classList.add('hidden');
+        });
+  
+        capsEn.forEach(key => {
+          key.classList.remove('hidden');
+        });
+  
+        // console.log('eng');
+      } 
+  
+      if (!rus.some(elem => elem.classList.contains('hidden'))) {
+        // console.log('rus');
+        
+        caseDownRu.forEach(key => {
+          key.classList.add('hidden');
+        });
+  
+        capsRu.forEach(key => {
+          key.classList.remove('hidden');
+        });
+      }
+    } else {
+      button.classList.remove('active');
+
+      if (!eng.some(elem => elem.classList.contains('hidden'))) {
+        caseDownEn.forEach(key => {
+          key.classList.remove('hidden');
+        });
+  
+        caseUpEn.forEach(key => {
+          key.classList.add('hidden');
+        });
+      } 
+      if (!rus.some(elem => elem.classList.contains('hidden'))) {
+        console.log('rus');
+        
+        caseDownRu.forEach(key => {
+          key.classList.remove('hidden');
+        });
+  
+        caseUpRu.forEach(key => {
+          key.classList.add('hidden');
+        });
+      }
+    }
+  }
+  
+  if (keyName === 'ShiftLeft' || keyName === 'ShiftRight') {
+  
+    if (!eng.some(elem => elem.classList.contains('hidden'))) {
+
+      caseDownEn.forEach(key => {
+        key.classList.add('hidden');
+      });
+
+      capsEn.forEach(key => {
+        key.classList.remove('hidden');
+      });
+
+      // console.log('eng');
+    } 
+
+    if (!rus.some(elem => elem.classList.contains('hidden'))) {
+      // console.log('rus');
+      
+      caseDownRu.forEach(key => {
+        key.classList.add('hidden');
+      });
+
+      capsRu.forEach(key => {
+        key.classList.remove('hidden');
+      });
+    }
+  }
+}
+});
+
+document.addEventListener('keyup', (event) => {
+  event.preventDefault();
+  let keyName = event.code;
+
+  let button = document.querySelector(`.${keyName}`);
+
+  if (button) {
+    if (keyName !== 'CapsLock') {
+      button.classList.remove('active');
+    }
+  
+    if (keyName === 'ShiftLeft' || keyName === 'ShiftRight') {
+    
+      if (!eng.some(elem => elem.classList.contains('hidden'))) {
+        caseDownEn.forEach(key => {
+          key.classList.remove('hidden');
+        });
+  
+        capsEn.forEach(key => {
+          key.classList.add('hidden');
+        });
+      } 
+      if (!rus.some(elem => elem.classList.contains('hidden'))) {
+        console.log('rus');
+        
+        caseDownRu.forEach(key => {
+          key.classList.remove('hidden');
+        });
+  
+        capsRu.forEach(key => {
+          key.classList.add('hidden');
+        });
+      }
+    }
+  }  
+  // console.log(button);
+});
+
+function changeTextArea(btn, btnText) {
+  textarea.focus();
+
+  let startPos = textarea.selectionStart;
+  let endPos = textarea.selectionEnd;
+
+  if (btn === 'Backspace') {
+    const front = (textarea.value).substring(0, startPos - 1);
+    const back = (textarea.value).substring(endPos, textarea.value.length);
+
+    textarea.value = front + back;
+    startPos--;
+  } else if (btn === 'Delete') {
+    const front = (textarea.value).substring(0, startPos);
+    const back = (textarea.value).substring(endPos + 1, textarea.value.length);
+
+    textarea.value = front + back;
+  } else if (btn === 'Tab') {
+    const front = (textarea.value).substring(0, startPos);
+    const back = (textarea.value).substring(endPos, textarea.value.length);
+
+    textarea.value = front + '\t' + back;
+    startPos++;
+  } else if (btn === 'Enter') {
+    const front = (textarea.value).substring(0, startPos);
+    const back = (textarea.value).substring(endPos, textarea.value.length);
+
+    textarea.value = front + '\n' + back;
+    startPos++; 
+  } else {
+    const front = (textarea.value).substring(0, startPos);
+    const back = (textarea.value).substring(endPos, textarea.value.length);
+
+    textarea.value = front + btnText.textContent + back;
+    startPos++;
+  }
+
+  // console.log(`Input changed: ${textarea.value}`);
+  textarea.selectionStart = startPos;
+  textarea.selectionEnd = startPos;
+}
+
 function createLanguageTemplate(wrapper, language, keyObject) {
   const caseDown = document.createElement('span');
   caseDown.classList.add('caseDown');
