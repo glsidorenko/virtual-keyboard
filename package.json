@@ -1,5 +1,13 @@
 {
+  "scripts": {
+    "eslint": "eslint"
+  },
   "devDependencies": {
-    "eslint": "^8.15.0"
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "dependencies": {
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
   }
 }
