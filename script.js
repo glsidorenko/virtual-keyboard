@@ -83,7 +83,7 @@ const rus = Array.from(document.querySelectorAll('.rus')),
       caseDownRu = document.querySelectorAll('.rus span.caseDown'),
       capsRu = document.querySelectorAll('.rus span.caps'),
 
-      caseUpEn = document.querySelectorAll('eng span.caseUp'),
+      caseUpEn = document.querySelectorAll('.eng span.caseUp'),
       caseDownEn = document.querySelectorAll('.eng span.caseDown'),
       capsEn = document.querySelectorAll('.eng span.caps'),
 
@@ -208,7 +208,7 @@ document.addEventListener('keydown', (event) => {
           key.classList.add('hidden');
         });
 
-        capsEn.forEach(key => {
+        caseUpEn.forEach(key => {
           key.classList.remove('hidden');
         });
       } 
@@ -218,7 +218,7 @@ document.addEventListener('keydown', (event) => {
           key.classList.add('hidden');
         });
 
-        capsRu.forEach(key => {
+        caseUpRu.forEach(key => {
           key.classList.remove('hidden');
         });
       }
@@ -244,7 +244,7 @@ document.addEventListener('keyup', (event) => {
           key.classList.remove('hidden');
         });
   
-        capsEn.forEach(key => {
+        caseUpEn.forEach(key => {
           key.classList.add('hidden');
         });
       } 
@@ -255,7 +255,7 @@ document.addEventListener('keyup', (event) => {
           key.classList.remove('hidden');
         });
   
-        capsRu.forEach(key => {
+        caseUpRu.forEach(key => {
           key.classList.add('hidden');
         });
       }
@@ -369,7 +369,7 @@ document.addEventListener('mousedown', (event) => {
           key.classList.add('hidden');
         });
   
-        capsEn.forEach(key => {
+        caseUpEn.forEach(key => {
           key.classList.remove('hidden');
         });
       } 
@@ -380,7 +380,7 @@ document.addEventListener('mousedown', (event) => {
           key.classList.add('hidden');
         });
   
-        capsRu.forEach(key => {
+        caseUpRu.forEach(key => {
           key.classList.remove('hidden');
         });
       }
@@ -416,18 +416,18 @@ document.addEventListener('mouseup', (event) => {
           key.classList.remove('hidden');
         });
   
-        capsEn.forEach(key => {
+        caseUpEn.forEach(key => {
           key.classList.add('hidden');
         });
       } 
       if (!rus.some(elem => elem.classList.contains('hidden'))) {
         console.log('rus');
         
-        caseDownRu.forEach(key => {
+        caseUpEn.forEach(key => {
           key.classList.remove('hidden');
         });
   
-        capsRu.forEach(key => {
+        caseUpEn.forEach(key => {
           key.classList.add('hidden');
         });
       }
