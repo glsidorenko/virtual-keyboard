@@ -20,7 +20,7 @@ module.exports = {
         ArrowFunctionExpression: false,
         FunctionExpression: false,
       },
-      // "code": 80,
+      'js': 'always',
     }],
   },
 };
