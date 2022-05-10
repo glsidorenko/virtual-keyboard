@@ -1,0 +1,149 @@
+:root {
+  box-sizing: border-box;
+}
+  
+*,
+::before,
+::after {
+  box-sizing: inherit;
+  margin: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+}
+
+.container {
+  padding-top: 40px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 145, 0.6);
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 40px; 
+  color: rgba(255, 242, 206, 0.9);
+}
+
+.textarea {
+  padding: 20px;
+  width: 735px;
+  height: 200px;
+  margin: 20px auto 0px;
+  display: block;
+  outline: 0;
+  resize: none;
+  font-size: 20px;
+  border: 0;
+  border-radius: 10px;
+  color: rgba(255, 242, 206, 0.9);
+  background-color: rgb(28, 133, 121);
+}
+
+.textarea::placeholder { 
+  color: rgba(255, 242, 206, 0.9); 
+}
+
+.keyboard {
+  padding: 10px;
+  width: 735px;
+  background-color: rgba(191, 59, 59, 0.7);
+  margin: 20px auto 0px;
+  border-radius: 10px;
+}
+
+.keyboard_line {
+  display: flex;
+  padding: 5px;
+}
+
+p, span {
+  text-align: center;
+}
+
+span {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+span.active .key {
+  background: black;
+}
+
+.eng, .rus {
+  border: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.active {
+  background-color: rgb(26, 148, 97);
+  color: rgba(255, 242, 206, 0.9);
+}
+
+.key {
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(219, 207, 34);
+  cursor: pointer;
+}
+
+.ShiftLeft,
+.CapsLock {
+  width: 100px;
+}
+
+.Backspace {
+  width: 135px;
+}
+
+.Enter,
+.ShiftRight {
+  width: 120px;
+}
+
+.Tab {
+  width: 80px;
+}
+
+.Delete {
+  width: 50px;
+}
+
+.ControlLeft,
+.ControlRight,
+.AltLeft,
+.AltRight {
+  width: 60px;
+}
+
+.Space {
+  width: 280px;
+}
+
+.key:hover {
+  background: rgb(172, 162, 25);;
+}
+
+.key.active {
+  background-color: rgb(26, 148, 97);
+  transform: scale(0.95);
+  color: rgba(255, 242, 206, 0.9);
+}
+
+.key + .key {
+  margin-left: 5px;
+}
+
+.description, .language {
+  margin-top: 20px;
+  font-size: 20px;
+  color: rgba(255, 242, 206, 0.9);
+}
