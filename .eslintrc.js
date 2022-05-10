@@ -20,7 +20,16 @@ module.exports = {
         ArrowFunctionExpression: false,
         FunctionExpression: false,
       },
-      'js': 'always',
+      'import/extensions': [
+        'error',
+        'ignorePackages',
+        {
+          'js': 'never',
+          'jsx': 'never',
+          'ts': 'never',
+          'tsx': 'never',
+        }
+      ],
     }],
   },
 };
