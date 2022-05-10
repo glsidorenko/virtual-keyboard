@@ -1,4 +1,4 @@
-import keys from './keysLayout';
+import keys from './keysLayout.js';
 
 const lang = localStorage.getItem('lang') || 'eng';
 
