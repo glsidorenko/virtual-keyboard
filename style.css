@@ -1,7 +1,8 @@
 :root {
   box-sizing: border-box;
+  --color-primary: rgba(255, 242, 206, 0.7);
 }
-  
+
 *,
 ::before,
 ::after {
@@ -23,34 +24,34 @@ body {
 
 .title {
   text-align: center;
-  margin-bottom: 40px; 
-  color: rgba(255, 242, 206, 0.9);
+  margin-bottom: 40px;
+  color: var(--color-primary);
 }
 
 .textarea {
   padding: 20px;
   width: 735px;
   height: 200px;
-  margin: 20px auto 0px;
+  margin: 20px auto 0;
   display: block;
   outline: 0;
   resize: none;
   font-size: 20px;
   border: 0;
   border-radius: 10px;
-  color: rgba(255, 242, 206, 0.9);
+  color: var(--color-primary);
   background-color: rgb(28, 133, 121);
 }
 
-.textarea::placeholder { 
-  color: rgba(255, 242, 206, 0.9); 
+.textarea::placeholder {
+  color: var(--color-primary);
 }
 
 .keyboard {
   padding: 10px;
   width: 735px;
   background-color: rgba(191, 59, 59, 0.7);
-  margin: 20px auto 0px;
+  margin: 20px auto 0;
   border-radius: 10px;
 }
 
@@ -70,21 +71,8 @@ span {
   overflow: hidden;
 }
 
-span.active .key {
-  background: black;
-}
-
-.eng, .rus {
-  border: 0;
-}
-
 .hidden {
   display: none;
-}
-
-.active {
-  background-color: rgb(26, 148, 97);
-  color: rgba(255, 242, 206, 0.9);
 }
 
 .key {
@@ -129,13 +117,12 @@ span.active .key {
 }
 
 .key:hover {
-  background: rgb(172, 162, 25);;
+  background: rgba(172, 162, 25, 0.8);;
 }
 
 .key.active {
   background-color: rgb(26, 148, 97);
-  transform: scale(0.95);
-  color: rgba(255, 242, 206, 0.9);
+  color: var(--color-primary);
 }
 
 .key + .key {
@@ -145,5 +132,5 @@ span.active .key {
 .description, .language {
   margin-top: 20px;
   font-size: 20px;
-  color: rgba(255, 242, 206, 0.9);
+  color: var(--color-primary);
 }
