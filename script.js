@@ -38,6 +38,8 @@ class KeyboardLine extends Element {
 
 class Keyboard {
   buttons = [];
+
+  specialKeys = ['CapsLock', 'MetaLeft', 'ShiftLeft', 'ShiftRight', 'AltLeft', 'AltRight', 'ControlLeft', 'ControlRight'];
   keys = keys;
 
   constructor() {
@@ -56,7 +58,9 @@ class Keyboard {
       const button = document.querySelector(`[data-key="${keyName}"]`);
 
       if (button) {
-        console.log(button);
+        if (!this.specialKeys.includes(keyName)) {
+          this.changeTextArea(button)
+        }
 
         button.classList.add('active');
       }
@@ -69,13 +73,11 @@ class Keyboard {
       if (button) {
         button.classList.remove('active');
       }
-
     });
   }
 
   connectButtonsToDOM() {
     this.buttons.forEach(button => {
-      console.log(button);
       button.connectToDOM();
     });
   }
@@ -140,14 +142,16 @@ class Keyboard {
     return keyboardDiv;
   }
 
-  changeTextArea(btn, btnWrap) {
+  changeTextArea(btn) {
     this.textarea.focus();
 
     let startPos = this.textarea.selectionStart;
     const endPos = this.textarea.selectionEnd;
     let { value } = this.textarea;
 
-    switch (btn) {
+    const keyName = btn.dataset.key;
+
+    switch (keyName) {
       case 'Backspace':
         value = value.substring(0, startPos - 1) + value.substring(endPos, value.length);
         startPos -= 1;
@@ -167,7 +171,7 @@ class Keyboard {
         const frontValue = value.substring(0, startPos);
         const backValue = value.substring(endPos, value.length);
 
-        value = frontValue + btnWrap.textContent + backValue;
+        value = frontValue + btn.textContent + backValue;
         startPos += 1;
         break;
       }
@@ -182,7 +186,6 @@ class Keyboard {
 class App {
   static init() {
     const keyboard = new Keyboard();
-    console.log(keyboard.buttons);
   }
 }
 

@@ -583,8 +583,8 @@
 //     },
 // };
 
-
 export const keys = [
+    // Первый ряд
     ['Backquote', '`'],
     ['Digit1', '1'],
     ['Digit2', '2'],
@@ -600,7 +600,7 @@ export const keys = [
     ['Equal', '='],
     ['Backspace', 'Backspace'],
 
-    //SECOND
+    // Второй ряд
     ["Tab", "Tab"],
     ["KeyQ", "q"],
     ["KeyW", "w"],
@@ -617,7 +617,7 @@ export const keys = [
     ['Backslash', "\\"],
     ['Delete', "Del"],
 
-    //THIRD
+    // Третий ряд
     ['CapsLock', "CapsLock"],
     ["KeyA", "a"],
     ["KeyS", "s"],
@@ -632,7 +632,7 @@ export const keys = [
     ['Quote', "'"],
     ['Enter', "Enter"],
 
-    //FOURTH
+    // Четвертый ряд
     ["ShiftLeft", "Shift"],
     ["KeyZ", "z"],
     ["KeyX", "x"],
@@ -647,17 +647,17 @@ export const keys = [
     ['ArrowUp', "▲"],
     ['ShiftRight', "Shift"],
 
-    //5
+    // Пятый ряд
     ["ControlLeft", "Ctrl"],
     ['MetaLeft', "Win"],
     ['AltLeft', "Alt"],
-    ['Space', "Space"],
+    ['Space', " "],
     ['AltRight', "Alt"],
     ['ArrowLeft', "◄"],
     ['ArrowDown', "▼"],
     ['ArrowRight', "►"],
     ['ControlRight', "Ctrl"],
-]
+];
 
 // export const newKeys = [
 //     [192, "`"],
@@ -736,7 +736,3 @@ export const keys = [
 //     [39, "►"],
 //     ['17', "Control"],
 // ]
-
-
-
-
