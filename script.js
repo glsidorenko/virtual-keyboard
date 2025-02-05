@@ -1,37 +1,75 @@
 // eslint-disable-next-line max-classes-per-file
 import {keys} from './keysLayout.js';
 
-// локал сторадж
-// let langState = localStorage.getItem('language') || 'eng';
+class KeyboardKey {
+  constructor(key, value) {
+    this.key = key;
+    this.value = value;
+  }
 
-class App {
-  static init() {
-    const keyboard = new Keyboard();
-    console.log(keyboard.buttons);
+  connectToDOM() {
+    const button = document.querySelector(`[data-key=${this.key}]`);
+    button.addEventListener('click', (e) => {
+      console.log(this);
+    })
+  }
+}
+
+class Element {
+  constructor(tag, classes) {
+    this.tag = tag;
+    this.classes = classes;
+  }
+
+  createElement() {
+    const element = document.createElement(this.tag);
+    element.classList.add(...this.classes);
+
+    return element;
+  }
+}
+
+class KeyboardLine extends Element {
+  constructor(tag, classes) {
+    super(tag, classes);
+    this.line = this.createElement();
   }
 }
 
 class Keyboard {
-  textarea = document.querySelector('.textarea');
   buttons = [];
+  keys = keys;
 
   constructor() {
     this.createKeyboard();
+    this.textarea = document.querySelector('.textarea');
+
     this.connectButtonsToDOM()
-    this.eventListener();
+    this.eventListeners();
   }
 
-  eventListener() {
+  eventListeners() {
     document.addEventListener('keydown', (event) => {
       event.preventDefault();
 
       const keyName = event.code;
-      const buttonDiv = document.querySelector(`[data-key="${keyName}"]`);
-      console.log(buttonDiv);
+      const button = document.querySelector(`[data-key="${keyName}"]`);
 
-      if (buttonDiv) {
-        buttonDiv.classList.add('active');
+      if (button) {
+        console.log(button);
+
+        button.classList.add('active');
       }
+    });
+
+    document.addEventListener('keyup', (event) => {
+      const keyName = event.code;
+      const button = document.querySelector(`[data-key="${keyName}"]`);
+
+      if (button) {
+        button.classList.remove('active');
+      }
+
     });
   }
 
@@ -55,7 +93,7 @@ class Keyboard {
     changeLanguageDescription.textContent = 'Для переключения языка комбинация: Ctrl + Alt';
 
     const keyboardDiv = this.createLayout();
-    // eslint-disable-next-line max-len
+
     container.append(keyboardTitle, keyboardTextArea, keyboardDiv, keyboardDescription, changeLanguageDescription);
     document.body.prepend(container);
   }
@@ -71,8 +109,9 @@ class Keyboard {
 
     let counter = 0;
 
-    keys.forEach(([value, key]) => {
+    this.keys.forEach(([value, key]) => {
       const keyContainer = new Element('div', ['key']).createElement();
+
       keyContainer.dataset.key = value;
       keyContainer.textContent = key;
 
@@ -140,53 +179,11 @@ class Keyboard {
   }
 }
 
-class KeyboardKey {
-  constructor(key, value) {
-    this.key = key;
-    this.value = value;
-    // this.connectToDOM();
-  }
-
-  connectToDOM() {
-    const button = document.querySelector(`[data-key=${this.key}]`);
-    button.addEventListener('click', (e) => {
-      console.log(this);
-    })
-  }
-
-  render() {
-
+class App {
+  static init() {
+    const keyboard = new Keyboard();
+    console.log(keyboard.buttons);
   }
 }
-
-class Element {
-  constructor(tag, classes) {
-    this.tag = tag;
-    this.classes = classes;
-  }
-
-  createElement() {
-    const element = document.createElement(this.tag);
-    element.classList.add(...this.classes);
-
-    return element;
-  }
-}
-class KeyboardLine extends Element {
-  constructor(tag, classes) {
-    super(tag, classes);
-    this.line = this.createElement();
-  }
-}
-
-
-
-document.addEventListener('keyup', (event) => {
-  const keyName = event.code;
-  const button = document.querySelector(`[data-key="${keyName}"]`);
-
-  button.classList.remove('active');
-});
-
 
 App.init();

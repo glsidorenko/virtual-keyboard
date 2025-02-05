@@ -736,12 +736,7 @@ export const keys = [
 //     [39, "►"],
 //     ['17', "Control"],
 // ]
-//
-// export const keyMap = new Map();
-//
-// newKeys.forEach(([key, value]) => {
-//     keyMap.set(key, value);
-// });
+
 
 
 
