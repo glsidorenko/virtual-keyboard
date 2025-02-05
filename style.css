@@ -83,37 +83,37 @@ span {
   cursor: pointer;
 }
 
-.ShiftLeft,
-.CapsLock {
-  width: 100px;
-}
-
-.Backspace {
+[data-key="Backspace"] {
   width: 135px;
 }
 
-.Enter,
-.ShiftRight {
-  width: 120px;
-}
-
-.Tab {
+[data-key="Tab"] {
   width: 80px;
 }
 
-.Delete {
+[data-key="Space"] {
+  width: 280px;
+}
+
+[data-key="Delete"] {
   width: 50px;
 }
 
-.ControlLeft,
-.ControlRight,
-.AltLeft,
-.AltRight {
-  width: 60px;
+[data-key="Enter"],
+[data-key="ShiftRight"] {
+  width: 120px;
 }
 
-.Space {
-  width: 280px;
+[data-key="ShiftLeft"],
+[data-key="CapsLock"] {
+  width: 100px;
+}
+
+[data-key="ControlLeft"],
+[data-key="ControlRight"],
+[data-key="AltRight"],
+[data-key="AltLeft"] {
+  width: 60px;
 }
 
 .key:hover {
