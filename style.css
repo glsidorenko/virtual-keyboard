@@ -60,15 +60,8 @@ body {
   padding: 5px;
 }
 
-p, span {
+p {
   text-align: center;
-}
-
-span {
-  width: 100%;
-  height: 100%;
-  display: block;
-  overflow: hidden;
 }
 
 .hidden {
@@ -81,6 +74,7 @@ span {
   height: 40px;
   background-color: rgb(219, 207, 34);
   cursor: pointer;
+  text-align: center;
 }
 
 [data-key="Backspace"] {
