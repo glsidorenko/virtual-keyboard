@@ -1,52 +1,89 @@
-// eslint-disable-next-line max-classes-per-file
-import {keys} from './keysLayout.js';
+import {keysMap} from './keysLayout.js';
 
-class KeyboardKey {
-  constructor(key, value) {
-    this.key = key;
-    this.value = value;
-  }
-
-  connectToDOM() {
-    const button = document.querySelector(`[data-key=${this.key}]`);
-    button.addEventListener('click', (e) => {
-      console.log(this);
-    })
-  }
-}
-
-class Element {
-  constructor(tag, classes) {
-    this.tag = tag;
-    this.classes = classes;
-  }
-
-  createElement() {
-    const element = document.createElement(this.tag);
-    element.classList.add(...this.classes);
+class DOMHelper {
+  static createElement(tag, classes) {
+    const element = document.createElement(tag);
+    element.classList.add(...classes);
 
     return element;
   }
 }
+const specialKeys = ['Tab', 'CapsLock', 'ShiftLeft', 'ShiftRight', 'AltLeft', 'AltRight', 'ControlLeft', 'ControlRight', 'MetaLeft', 'Delete', 'Enter', 'Backspace'];
 
-class KeyboardLine extends Element {
+class KeyboardKey extends DOMHelper {
+  constructor(key, value) {
+    super();
+    this.key = key;
+    this.value = value;
+    this.currentKeyLanguage = localStorage.getItem('language') || 'eng';
+    this.render();
+    this.addEventListeners();
+  }
+
+  get shiftKeyLayout() {
+    const keys = keysMap.get(this.currentKeyLanguage);
+    return keys.extraKeys[this.key] || null;
+  }
+
+  get valueByKey() {
+    const obj = keysMap.get(this.currentKeyLanguage).keys;
+    return obj[this.key];
+  }
+
+  updateContent(value) {
+    this.ref.textContent = value;
+  }
+
+  addEventListeners() {
+    document.addEventListener('shiftOn', (e) => {
+      if(!specialKeys.includes(this.key)) {
+        const key = this.shiftKeyLayout;
+        if (key !== null) {
+          this.updateContent(key);
+        } else {
+          this.updateContent(this.valueByKey.toUpperCase());
+        }
+      }
+    })
+
+    document.addEventListener('shiftOff', (e) => {
+        if(!specialKeys.includes(this.key)) {
+          this.updateContent(this.valueByKey.toLowerCase());
+        }
+    })
+
+    document.addEventListener('changeLanguage', (e) => {
+      const { language } = e.detail;
+      this.currentKeyLanguage = language;
+
+      if(!specialKeys.includes(this.key)) {
+          this.updateContent(this.valueByKey);
+      }
+
+      console.log(`язык в кнопке ${this.currentKeyLanguage}`);
+    })
+  }
+
+  render() {
+    this.ref = DOMHelper.createElement('div', ['key']);
+  }
+}
+
+class KeyboardLine extends DOMHelper {
   constructor(tag, classes) {
-    super(tag, classes);
-    this.line = this.createElement();
+    super();
+    this.ref = DOMHelper.createElement(tag, classes);
   }
 }
 
 class Keyboard {
   buttons = [];
-
   specialKeys = ['CapsLock', 'MetaLeft', 'ShiftLeft', 'ShiftRight', 'AltLeft', 'AltRight', 'ControlLeft', 'ControlRight'];
-  keys = keys;
 
   constructor() {
+    this.language = localStorage.getItem('language') || 'eng';
     this.createKeyboard();
     this.textarea = document.querySelector('.textarea');
-
-    this.connectButtonsToDOM()
     this.eventListeners();
   }
 
@@ -55,39 +92,68 @@ class Keyboard {
       event.preventDefault();
 
       const keyName = event.code;
-      const button = document.querySelector(`[data-key="${keyName}"]`);
+      const newButton = this.buttons.find(key => key.key === keyName);
+      const buttonDiv = newButton.ref;
 
-      if (button) {
+      if (newButton) {
         if (!this.specialKeys.includes(keyName)) {
-          this.changeTextArea(button)
+          this.changeTextArea(buttonDiv)
         }
+        buttonDiv.classList.add('active');
+      }
 
-        button.classList.add('active');
+      if (event.shiftKey) {
+        const shiftOn = new Event('shiftOn', {bubbles: true});
+        document.dispatchEvent(shiftOn);
+      }
+
+      if (event.altKey && event.ctrlKey) {
+        this.changeKeyboardLanguage();
+        document.dispatchEvent(new CustomEvent("changeLanguage", {
+          bubbles: true,
+          detail: { language: this.language }
+        }));
       }
     });
 
     document.addEventListener('keyup', (event) => {
       const keyName = event.code;
-      const button = document.querySelector(`[data-key="${keyName}"]`);
+
+      const button = this.buttons.find(key => key.key === keyName);
+      let buttonDiv = '';
 
       if (button) {
-        button.classList.remove('active');
+        buttonDiv = button.ref;
+        buttonDiv.classList.remove('active');
+      }
+
+      if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+        const shiftOff = new Event('shiftOff', {bubbles: true});
+        buttonDiv.dispatchEvent(shiftOff);
       }
     });
+
+    document.addEventListener('changeLanguage', (event) => {
+      console.log('Смена языка', event.detail.language);
+    })
   }
 
-  connectButtonsToDOM() {
-    this.buttons.forEach(button => {
-      button.connectToDOM();
-    });
+  changeKeyboardLanguage() {
+    if (this.language === 'eng') {
+      this.language = 'rus';
+      localStorage.setItem('language', 'rus')
+    } else {
+      this.language = 'eng';
+      localStorage.setItem('language', 'eng')
+    }
   }
 
   createKeyboard() {
-    const container = new Element('div', ['container']).createElement();
-    const keyboardTitle = new Element('h1', ['title']).createElement();
-    const keyboardTextArea = new Element('textArea', ['textarea']).createElement();
-    const keyboardDescription = new Element('p', ['description']).createElement();
-    const changeLanguageDescription = new Element('p', ['language']).createElement();
+    const container = DOMHelper.createElement('div', ['container']);
+    const keyboardTitle = DOMHelper.createElement('h1', ['title']);
+    const keyboardTextArea = DOMHelper.createElement('textArea', ['textarea']);
+    const keyboardDescription = DOMHelper.createElement('p', ['description']);
+    const changeLanguageDescription = DOMHelper.createElement('p', ['language']);
 
     keyboardTitle.textContent = 'Virtual Keyboard / Виртуальная клавиатура';
     keyboardTextArea.placeholder = 'You can write whatever you want!';
@@ -101,25 +167,25 @@ class Keyboard {
   }
 
   createLayout() {
-    const keyboardDiv = new Element('div', ['keyboard']).createElement();
+    const keyboardDiv = DOMHelper.createElement('div', ['keyboard']);
 
-    const keyboardRow1 = new KeyboardLine('div', ['keyboard_line']).line;
-    const keyboardRow2 = new KeyboardLine('div', ['keyboard_line']).line;
-    const keyboardRow3 = new KeyboardLine('div', ['keyboard_line']).line;
-    const keyboardRow4 = new KeyboardLine('div', ['keyboard_line']).line;
-    const keyboardRow5 = new KeyboardLine('div', ['keyboard_line']).line;
+    const keyboardRow1 = new KeyboardLine('div', ['keyboard_line']).ref;
+    const keyboardRow2 = new KeyboardLine('div', ['keyboard_line']).ref;
+    const keyboardRow3 = new KeyboardLine('div', ['keyboard_line']).ref;
+    const keyboardRow4 = new KeyboardLine('div', ['keyboard_line']).ref;
+    const keyboardRow5 = new KeyboardLine('div', ['keyboard_line']).ref;
 
     let counter = 0;
 
-    this.keys.forEach(([value, key]) => {
-      const keyContainer = new Element('div', ['key']).createElement();
+    const keyboardKeys = keysMap.get(this.language).keys;
 
-      keyContainer.dataset.key = value;
-      keyContainer.textContent = key;
+    for (const key in keyboardKeys) {
+      const value = keyboardKeys[key];
+      const newKey = new KeyboardKey(key, value);
+      const keyContainer = newKey.ref;
 
-      // const wrapperEn = createLanguageWrapper('en', key);
-      // keyContainer.append(wrapperEn);
-      const newKey = new KeyboardKey(value, key);
+      keyContainer.dataset.key = key;
+      keyContainer.textContent = value;
       this.buttons.push(newKey);
 
       if (counter < 14) {
@@ -135,10 +201,9 @@ class Keyboard {
       }
 
       counter++;
-    })
+    }
 
     keyboardDiv.append(keyboardRow1, keyboardRow2, keyboardRow3, keyboardRow4, keyboardRow5);
-
     return keyboardDiv;
   }
 
@@ -147,7 +212,7 @@ class Keyboard {
 
     let startPos = this.textarea.selectionStart;
     const endPos = this.textarea.selectionEnd;
-    let { value } = this.textarea;
+    let {value} = this.textarea;
 
     const keyName = btn.dataset.key;
 
@@ -185,7 +250,7 @@ class Keyboard {
 
 class App {
   static init() {
-    const keyboard = new Keyboard();
+    new Keyboard();
   }
 }
 
