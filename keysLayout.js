@@ -159,7 +159,6 @@ const rusLayout = {
     ArrowRight: "►",
     ControlRight: "Ctrl",
 };
-
 const engExtraKeys = {
     Backquote:  '~',
     Digit1:  '!',

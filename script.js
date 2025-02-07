@@ -1,4 +1,4 @@
-import {keysMap} from './keysLayout.js';
+import { keysMap } from './keysLayout.js';
 
 class DOMHelper {
   static createElement(tag, classes) {
@@ -56,11 +56,9 @@ class KeyboardKey extends DOMHelper {
       const { language } = e.detail;
       this.currentKeyLanguage = language;
 
-      if(!specialKeys.includes(this.key)) {
+      if (!specialKeys.includes(this.key)) {
           this.updateContent(this.valueByKey);
       }
-
-      console.log(`язык в кнопке ${this.currentKeyLanguage}`);
     })
   }
 
@@ -92,22 +90,25 @@ class Keyboard {
       event.preventDefault();
 
       const keyName = event.code;
-      const newButton = this.buttons.find(key => key.key === keyName);
-      const buttonDiv = newButton.ref;
+      const button = this.buttons.find(key => key.key === keyName);
 
-      if (newButton) {
+      if (button) {
+        const buttonDiv = button.ref;
+
         if (!this.specialKeys.includes(keyName)) {
           this.changeTextArea(buttonDiv)
         }
         buttonDiv.classList.add('active');
       }
 
-      if (event.shiftKey) {
+      if (!event.repeat && event.shiftKey) {
+        // console.log('shiftOn');
         const shiftOn = new Event('shiftOn', {bubbles: true});
         document.dispatchEvent(shiftOn);
       }
 
-      if (event.altKey && event.ctrlKey) {
+      if (!event.repeat && (event.altKey && event.ctrlKey)) {
+        console.log('смена языка');
         this.changeKeyboardLanguage();
         document.dispatchEvent(new CustomEvent("changeLanguage", {
           bubbles: true,
@@ -117,25 +118,20 @@ class Keyboard {
     });
 
     document.addEventListener('keyup', (event) => {
-      const keyName = event.code;
 
-      const button = this.buttons.find(key => key.key === keyName);
-      let buttonDiv = '';
+      const keyName = event.code;
+      const button = this.buttons.find(({key}) => key === keyName);
+      const buttonDiv = button.ref;
 
       if (button) {
-        buttonDiv = button.ref;
         buttonDiv.classList.remove('active');
       }
 
       if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
         const shiftOff = new Event('shiftOff', {bubbles: true});
-        buttonDiv.dispatchEvent(shiftOff);
+        document.dispatchEvent(shiftOff);
       }
     });
-
-    document.addEventListener('changeLanguage', (event) => {
-      console.log('Смена языка', event.detail.language);
-    })
   }
 
   changeKeyboardLanguage() {
